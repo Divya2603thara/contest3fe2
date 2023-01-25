@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+
+    <style>
+        .error{
+color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p class="error"></p>
+<form class="signup">
+    <fieldset>
+        <legend>Signup Form</legend>
+  <lable for="name">Name</lable><br>
+  <input type="name" name="name" id="name" placeholder="Enter your name">
+  <br><br>
+
+  <lable for="email">Email</lable><br>
+  <input type="email" name="email" id="email" placeholder="Enter your email">
+  <br><br>
+
+  <lable for="password">Password</lable><br>
+  <input type="password" name="password" id="password" placeholder="Enter your password">
+  <br><br>
+
+  <lable for="confirm-password">Confirm Password</lable><br>
+  <input type="password" name="confirm-password" id="confirm-password" placeholder="Enter your password">
+  <br><br>
+  <input type="submit">
+</fieldset>
+</form> 
+
+<script>
+
+
+let signup_form = document.querySelector('.signup')
+
+let input_name =  document.querySelector('#name')
+let input_email =  document.querySelector('#email')
+let input_password = document.querySelector('#password')
+let input_confirm_password = document.querySelector('#confirm-password')
+let error = document.querySelector('.error');
+
+signup_form.addEventListener('submit',validateForm)
+
+let arr=[]
+let id=1
+function validateForm(e){
+    e.preventDefault();
+    let name = input_name.value;
+    let email = input_email.value;
+    let password = input_password.value;
+    let Confirm_password = input_confirm_password.value;
+
+if(checkNumberofwords(name) < 2){
+  error.innerHTML = 'Name must be at least 2 words';
+} 
+else if(email.includes('@') == false){
+    error.innerHTML = 'Email must contains @';
+}   
+else if(checkPassword(password,name,email) == false){
+    error.innerHTML = 'password must contains atleast 1 uppercase,1 lowercase,1 number and 1 special character';
+} 
+else if(password != Confirm_password){
+    error.innerHTML = 'password and confirm password must be same';
+} 
+else{
+    error.innerHTML = 'Form submitted succesfully';
+    let obj = {id:id++,name,email,password}
+    arr.push(obj)
+    console.log(arr)
+} 
+
+}
+function checkNumberofwords(name){
+     name = name.trim();
+    let arr = name.split(' ');
+    return arr.length
+}
+function checkPassword(password,name,email){
+    let cl=0,sl=0,n=0,sc=0;
+    for(let t of password){
+        if(t>="A" && t<="Z"){
+            cl++;
+        }else if(t>="a" && t<="z"){
+            sl++;
+        }else if(t>="0" && t<="9"){
+            n++;
+        }else{
+            sc++;
+        }
+    }
+    if(cl>=1 && sl>=1 && n>=1 && sc>=1 && password != name && password != email){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+</script>
+
+</body>
+</html>
